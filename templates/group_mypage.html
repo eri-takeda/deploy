@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}保護団体用マイページ - ネコイル{% endblock %}
+
+{% block content %}
+    <div style="margin-top: 100px; text-align: center;">
+        <h2>保護団体マイページ</h2>
+        {% load static %}
+        <img src="{% static "images/group_mypage.jpg" %}" alt="団体用マイページ" style="max-width: 50%; height: auto;">
+        <div>
+
+            <a href="{% url 'boards:cat_create' %}" class="button">ねこ登録フォーム</a>
+            <a href="{% url 'boards:cat_list' %}" class="button">ねこ募集一覧</a>
+            <a class="button navbar-brand" href="{% url 'boards:create_theme' %}">掲示板新規作成</a>
+            <a class="button navbar-brand" href="{% url 'boards:list_themes' %}">掲示板一覧</a>
+            <a href="{% url 'accounts:user_edit' %}" class="button">ユーザ情報変更</a>
+        </div>
+
+        <form action="{% url 'accounts:user_logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="button">ログアウト</button>
+    </div>
+{% endblock %}

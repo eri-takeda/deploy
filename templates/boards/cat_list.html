@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}ねこ募集一覧画面 - ネコイル{% endblock %}
+
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 850px; height: 950px; margin-left: auto; margin-right: auto;">
+
+{% if messages %}
+  {% for message in messages %}
+  <div>{{ message.message }}</div>
+  {% endfor %}
+{% endif %}
+<h3>ねこ募集一覧</h3>
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>画像</th>
+      <th>性別</th>
+      <th>年齢</th>
+      <th>色</th>
+      <th>生まれた場所</th>
+      <th>避妊済み</th>
+      <th>作成者</th> 
+    </tr>
+  </thead>
+  <tbody>
+  {% for cat in cats %}
+    <tr>
+        <td>{{ cat.id }}</td> <!-- IDを表示 -->
+
+        {% if cat.image %}
+            <td><img src="{{ cat.image.url }}" alt="{{ cat.image }}" width="100"></td>
+        {% else %}
+            <td>No Image</td>
+        {% endif %}
+
+        <td>{{ cat.gender }}</td>
+        <td>{{ cat.age }}</td>
+        <td>{{ cat.color }}</td>
+        <td>{{ cat.birthplace }}</td>
+        <td>{% if cat.spayed %}避妊済み{% else %}未避妊{% endif %}</td>
+
+        <td>
+            {% if theme.user.username.id == user.username.id %}
+                <a href="{% url 'boards:cat_edit' id=cat.id %}">{{ cat.user.username }}</a>
+            {% else %}
+                {{ cat.user.username }}
+            {% endif %}
+        </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if cats.has_previous %}
+            <a href="?page=1">&laquo; 最初へ</a>
+            <a href="?page={{ cats.previous_page_number }}">前へ</a>
+        {% endif %}
+
+        <span class="current">
+            ページ {{ cats.number }} / {{ cats.paginator.num_pages }}.
+        </span>
+
+        {% if cats.has_next %}
+            <a href="?page={{ cats.next_page_number }}">次へ</a>
+            <a href="?page={{ cats.paginator.num_pages }}">最後へ &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+<div>
+<a href="{% url 'boards:cat_search' %}" class="button">募集ねこ検索へ</a>
+</div>
+
+{% endblock %}

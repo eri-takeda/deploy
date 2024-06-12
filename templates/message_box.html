@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}メッセージ一覧 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+
+    <h1>メッセージ一覧</h1>
+    
+    <!-- 戻るボタン -->
+    <a href="{% url 'accounts:user_mypage' %}" class="button">戻る</a>
+
+    <!-- メッセージ一覧テーブル -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ユーザ名</th>
+                <th>最新メッセージ</th>
+                <th>送受信日</th>
+            </tr>
+        </thead>
+        <tbody id="messageTableBody">
+            <!-- メッセージデータを動的に表示する行 -->
+            {% for message in message_box %}
+                <tr onclick="location.href='{% url 'accounts:message_detail' message.id %}'">
+                    <td>{{ message.user_name }}</td>
+                    <td>{{ message.latest_message }}</td>
+                    <td>{{ message.date }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">メッセージがありません。</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- ページ遷移リンク -->
+    <div>
+        <!-- ページ遷移リンクを表示 -->
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}ねこ掲示板編集画面 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+
+<h3>ねこ掲示板編集</h3>
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{ edit_cat_form.as_p }}
+<input type="submit" value="更新"class="button">
+<a class="navbar-brand button" href="{% url 'boards:cat_delete' id=id %}">削除する</a>
+</form>
+
+{% endblock %}

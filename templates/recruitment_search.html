@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}募集ねこ検索 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+
+    <div style="margin-top: 100px; text-align: center;">
+        <h2>募集ねこ検索</h2>
+        <form method="get" action="{% url 'accounts:recruitment_search' %}">
+        
+            <div style="margin-bottom: 20px;">
+
+                {% include 'regist_prefecture_select.html' %}
+                <br>
+                <label for="age">年齢:</label>
+                <select id="age" name="age">
+                    <option value="">選択してください</option>
+                    <option value="子猫(1歳未満)">子猫(1歳未満)</option>
+                    <option value="成猫(1歳以上)">成猫(1歳以上)</option>
+                </select>
+                 <br>
+                <label for="color">色:</label>
+                <select id="color" name="color">
+                    <option value="">選択してください</option>
+                    <option value="白">白</option>
+                    <option value="黒">黒</option>
+                    <option value="茶">茶</option>
+                    <option value="ミックス">ミックス</option>
+                </select>
+                <br>
+                <label>性別:</label>
+                <input type="radio" name="gender" value="male">オス
+                <input type="radio" name="gender" value="female">メス
+                <!-- 他の性別のラジオボタンを追加 -->
+                <br>
+                <label>避妊・去勢済み:</label>
+                <input type="radio" name="spayed" value="True">はい
+                <input type="radio" name="spayed" value="False">いいえ
+                <!-- 他の避妊・去勢済みのラジオボタンを追加 -->
+                <br>
+                <label>募集状況:</label>
+                <input type="radio" name="status" value="open">募集中
+                <input type="radio" name="status" value="closed">募集終了
+                <!-- 他の募集状況のラジオボタンを追加 -->
+                <br>
+                <input type="submit" value="検索" class="button">
+                <input type="reset" value="クリア" class="button">
+            </div>
+        </form>
+        <a href="{% url 'accounts:user_mypage' %}" class="button">戻る</a>
+        
+        <div>
+            <!-- ページ遷移リンクを表示 -->
+        </div>
+    </div>
+
+<!-- メッセージを表示 -->
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <!-- 検索結果を表示 -->
+    {% for result in search_results %}
+    <div>
+        <p>募集ID: {{ result.id }}</p>
+        <p>都道府県: {{ result.prefecture }}</p>
+        <p>年齢: {{ result.age }}</p>
+        <p>色: {{ result.color }}</p>
+        <p>性別: {{ result.gender }}</p>
+        <p>避妊・去勢済み: {{ result.spayed }}</p>
+        <p>募集状況: {{ result.status }}</p>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

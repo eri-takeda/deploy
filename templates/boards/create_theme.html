@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}掲示板作成画面 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+
+
+<h3>掲示板作成画面</h3>
+<form method="POST">
+{% csrf_token %}
+{{ create_theme_form.as_p }}
+<input type="submit" value="掲示板作成" class="button">
+</form>
+
+{% comment %} <a href="{% url 'accounts:group_mypage' %}" class="button">マイページへ戻る</a> {% endcomment %}
+
+{% endblock %}

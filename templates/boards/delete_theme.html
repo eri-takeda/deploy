@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}掲示板削除画面 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+
+<h3>掲示板削除画面</h3>
+<form method="POST">
+{% csrf_token %}
+{{ delete_theme_form.as_p }}
+<input type="submit" value="削除する"class="button">
+</form>
+{% endblock %}

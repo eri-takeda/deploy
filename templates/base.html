@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+    <meta charset ='utf-8'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<style>
+        /* ページ全体の背景色 */
+        body {
+            background-color: #ffe4b5; /* 薄いパステルオレンジ */
+            font-family: "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体"; /* 游ゴシックフォントの指定 */
+        }
+    </style>
+
+</head>
+   <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        {% comment %} <a class="navbar-brand" href="{% url 'accounts:home' %}">ホーム</a> {% endcomment %}
+        {% if user.is_authenticated %}       
+        {% comment %} <a class="navbar-brand" href="{% url 'accounts:user_logout' %}">ログアウト</a> {% endcomment %}
+        {% comment %} <a class="navbar-brand" href="{% url 'accounts:user_edit' %}">ユーザ情報更新</a> {% endcomment %}
+
+        {% comment %} <a class="navbar-brand" href="{% url 'stores:product_list' %}">商品一覧</a> {% endcomment %}
+        {% comment %} <a class="navbar-brand" href="{% url 'stores:cart_items' %}">カートへ</a> {% endcomment %}
+        {% else %}
+        {% comment %} <a class="navbar-brand" href="{% url 'accounts:user_login' %}">ログイン</a> {% endcomment %}
+        {% comment %} <a class="navbar-brand" href="{% url 'accounts:regist' %}">ユーザー登録</a> {% endcomment %}
+        {% endif %}
+        {% comment %} <a class="navbar-brand" href="{% url 'accounts:user' %}">ユーザー画面</a> {% endcomment %}
+      </nav>
+      {% block content %}{% endblock %}
+   </body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}ネコイル{% endblock %}</title>
+    <style>
+        /* 全画面共通のスタイル */
+        .title-banner {
+            background-color: #add8e6; /* パステルブルー */
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            font-family: "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体"; /* 游ゴシックフォントの指定 */
+        }
+        .button {
+            background-color: #add8e6; /* パステルブルー */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体"; /* 游ゴシックフォントの指定 */
+        }
+        .button:hover {
+            background-color: #4682b4; /* マウスオーバー時の色 */
+        }
+    </style>
+</head>
+<body>
+    <div class="title-banner">
+        {% load static %}
+        <img src="{% static "images/title_cat.png" %}" alt="タイトルバナーcat" style="max-width: 4%; height: auto;">
+    </div>
+  
+</body>
+</html>

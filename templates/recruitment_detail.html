@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}募集詳細{% endblock %}
+
+{% block content %}
+    <h1>募集詳細</h1>
+    <button onclick="history.back()">戻る</button>
+    <a href="accounts:message_detail"><button>問い合わせ</button></a>
+    <div>
+        <h2>募集情報</h2>
+        <p>募集ID: 12345</p>
+        <p>募集状況: 掲載中</p>
+        <p>更新日: 2024年4月29日</p>
+        <p>性別: オス</p>
+        <p>年齢: 3歳</p>
+        <p>色: 茶</p>
+        <p>出身地: 東京都</p>
+        <p>避妊・去勢状況: 済み</p>
+    </div>
+{% endblock %}

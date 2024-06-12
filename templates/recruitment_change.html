@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}募集内容変更画面 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+    <h1>募集内容変更画面</h1>
+
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ new_cat_form.as_p }}
+        {{ form.as_p }}
+
+        <button type="submit">新規登録</button>
+       
+        <input type="submit" value="更新">
+
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" value="削除" onclick="return confirm('本当に削除しますか？');">
+    </form>
+
+    <a href="{% url 'accounts:recruitment_list' %}">戻る</a>
+</div>
+{% endblock %}

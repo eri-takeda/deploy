@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}ねこ登録フォーム - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+
+
+<h3>ねこ登録フォーム</h3>
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{ create_cat_form.as_p }}
+<input type="submit" value="新規登録" class="button">
+</form>
+
+{% comment %} <a href="{% url 'accounts:group_mypage' %}" class="button">マイページへ戻る</a> {% endcomment %}
+{% endblock %}

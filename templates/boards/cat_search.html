@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}ねこ検索画面 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 850px; height: 950px; margin-left: auto; margin-right: auto;">
+    <h2>ねこ検索</h2>
+    <form method="get" action="{% url 'boards:cat_search' %}">
+        {{ cat_search_form.as_p }}
+        <input type="submit" value="検索" class="button">
+        <input type="reset" value="クリア" class="button">
+    </form>
+
+     {% if cats %}
+        {% for cat in cats %}
+            <p>{{ cat.id }} - {{ cat.age }} - {{ cat.gender }} - {{ cat.color }}</p>
+        {% endfor %}
+    {% else %}
+        <p>猫が見つかりませんでした。</p>
+    {% endif %}
+
+    {% comment %} <a href="{% url 'accounts:user_mypage' %}" class="button">戻る</a> {% endcomment %}
+</div>
+
+{% endblock %}

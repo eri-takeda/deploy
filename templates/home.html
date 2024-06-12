@@ -1,0 +1,24 @@
+ {% extends 'base.html' %}
+
+{% block title %}ホーム画面 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+    <h1>Welcome to Nekoiru</h1>
+    <p>保護猫と未来の里親が繋がれる場所です</p>
+    <div>
+        {% load static %}
+        <img src="{% static "images/home_heart.png" %}" alt="里親を探す写真ハート" style="max-width: 20%; height: auto; margin-top: -200px; margin-right: -160px; transform: rotate(-10deg);">
+        <img src="{% static "images/home_cat.png" %}" alt="里親を探す写真" style="max-width: 50%; height: auto;">
+    <div>
+    <div style="text-align: center; margin-top: 60px;">
+        <a href="{% url 'accounts:user_login' %}" class="button">ログイン</a>
+        <input type="hidden" name="next" value="{{ request.GET.next}}">
+        <a href="{% url 'accounts:regist' %}" class="button">新規登録</a>
+    </div>
+    {% csrf_token %}
+</div>
+{% endblock %}
+
+{{ form.as_p }}
+

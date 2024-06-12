@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}募集一覧画面 - ネコイル{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+
+<!-- 検索条件入力エリア -->
+<div id="search_area">
+    <h2>検索条件入力</h2>
+    <form method="get" action="{% url 'accounts:recruitment_list' %}">
+        {% include 'regist_prefecture_select.html' %}
+        <br>
+        <button type="submit" class="button">検索</button>
+    </form>
+</div>
+
+<!-- 新規登録ボタン -->
+<form method="post" action="{% url 'boards:cat_create' %}">
+    {% csrf_token %}
+    <input type="submit" value="新規登録"class="button">
+</form>
+
+<!-- 募集詳細へのリンク -->
+<div id="recruitment_detail_link">
+    <h2>募集詳細</h2>
+    {% for recruitment in recruitments %}
+        <a href="{% url 'accounts:recruitment_change' recruitment.id %}" class="button">詳細を見る</a>
+    {% endfor %}
+</div>
+
+<!-- 戻るボタン -->
+{% comment %} <a href="{% url 'history_back' %}" class="button">戻る</a> {% endcomment %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}マイページ - ネコイル{% endblock %}
+
+{% block content %}
+    <div style="margin-top: 100px; text-align: center;">
+        <h2>里親マイページ</h2>
+        <div>
+        {% load static %}
+        <img src="{% static "images/user_mypage_cat.jpg" %}" alt="里親を探す写真" style="max-width: 50%; height: auto;">
+<div style="margin-top: 20px; text-align: center;">
+
+    <div>
+        <a href="{% url 'boards:cat_list' %}" class="button">ねこ募集一覧</a>
+        <a href="{% url 'boards:list_themes' %}" class="button">掲示板一覧</a>
+        <a href="{% url 'accounts:user_edit' %}" class="button">ユーザ情報変更</a>
+
+    </div>
+
+    <form action="{% url 'accounts:user_logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="button">ログアウト</button>
+    </form>
+</div>
+
+{% endblock %}
+

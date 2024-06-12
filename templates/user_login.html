@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block content %}
+
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+    <h1>ログイン</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <div class="button-container">
+            <input type="submit" value="ログイン"class="button">
+            <a href="{% url 'accounts:home' %}" class="button">戻る</a>
+        </div>
+    </form>
+<div>
+
+{% endblock %}
