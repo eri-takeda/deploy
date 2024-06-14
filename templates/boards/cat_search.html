@@ -9,6 +9,8 @@
         {{ cat_search_form.as_p }}
         <input type="submit" value="検索" class="button">
         <input type="reset" value="クリア" class="button">
+        <a href="{% url 'boards:cat_list' %}" class="button">戻る</a>
+
     </form>
 
      {% if cats %}
@@ -19,7 +21,6 @@
         <p>猫が見つかりませんでした。</p>
     {% endif %}
 
-    {% comment %} <a href="{% url 'accounts:user_mypage' %}" class="button">戻る</a> {% endcomment %}
 </div>
 
 {% endblock %}

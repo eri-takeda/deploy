@@ -7,9 +7,41 @@
     <h2>ユーザ登録</h2>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="ユーザ登録" style="padding: 10px 20px; font-size: 16px; background-color: #add8e6; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
-    </form>
+        <div class="form-group">
+            <label for="id_username" style="display: inline-block; width: 100px; text-align: right;">名前:</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label for="id_age" style="display: inline-block; width: 100px; text-align: right;">年齢:</label>
+            {{ form.age }}
+        </div>
+        <div class="form-group">
+            <label for="id_email" style="display: inline-block; width: 100px; text-align: right;">メールアドレス:</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label for="id_password" style="display: inline-block; width: 100px; text-align: right;">パスワード:</label>
+            {{ form.password }}
+        </div>
+        <div class="form-group">
+            <label for="id_prefecture" style="display: inline-block; width: 100px; text-align: right;">都道府県:</label>
+            {{ form.prefecture }}
+                </div>
+        <div class="form-group">
+            <label for="id_address" style="display: inline-block; width: 100px; text-align: right;">住所:</label>
+            {{ form.address }}
+        </div>
+        <div class="form-group">
+            <label for="id_user_type" style="display: inline-block; width: 100px; text-align: right;">ユーザタイプ:</label>
+            {{ form.user_type }}
+        </div>
+
+
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        
+        <input type="submit" value="ユーザ登録" style="padding: 10px 20px; font-size: 16px; background-color: #add8e6; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; display: inline-block;">
+    
     <a href="{% url 'accounts:home' %}" style="display: inline-block; padding: 10px 20px; font-size: 16px; background-color: #add8e6; color: #fff; text-decoration: none; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">戻る</a> 
+    </form>
 </div>
 {% endblock %}

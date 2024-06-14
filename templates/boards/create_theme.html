@@ -11,8 +11,7 @@
 {% csrf_token %}
 {{ create_theme_form.as_p }}
 <input type="submit" value="掲示板作成" class="button">
+<a href="{% url 'accounts:group_mypage' %}" class="button">戻る</a>
+
 </form>
-
-{% comment %} <a href="{% url 'accounts:group_mypage' %}" class="button">マイページへ戻る</a> {% endcomment %}
-
 {% endblock %}

@@ -73,6 +73,16 @@ class UserLoginView(LoginView):
             self.request.session.set_expiry(1200000)
         return super().form_valid(form)
 
+
+
+from django.contrib.auth import logout
+
+def custom_logout_view(request):
+    logout(request)
+    # ログアウト後のリダイレクト先を指定
+    return redirect('accounts:user_login')
+
+
 #0604
 from .forms import UserEditForm 
 from django.contrib import messages
@@ -92,8 +102,8 @@ def user_edit(request):
 
 
 
-class UserLogoutView(LogoutView):
-    pass
+# class UserLogoutView(LogoutView):
+#     pass
 
 
 from django.views.decorators.http import require_POST

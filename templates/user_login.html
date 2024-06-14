@@ -2,12 +2,30 @@
 {% load socialaccount %}
 {% block content %}
 
+
 <div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
     <h1>ログイン</h1>
 
+     {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+         <div class="form-group">
+            <label for="id_username">ユーザー名:</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label for="id_password">パスワード:</label>
+            {{ form.password }}
+        </div>
+
         <input type="hidden" name="next" value="{{ request.GET.next }}">
         <div class="button-container">
             <input type="submit" value="ログイン"class="button">
@@ -15,5 +33,6 @@
         </div>
     </form>
 <div>
+
 
 {% endblock %}

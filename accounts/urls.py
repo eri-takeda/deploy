@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import (
-    RegistUserView, HomeView, UserLoginView,
-    UserLogoutView, UserView,UserMypageView,RecruitmentSearchView,UserInfoChangeView,
+    RegistUserView, HomeView, UserLoginView, UserView,UserMypageView,RecruitmentSearchView,UserInfoChangeView,
     MessageBoxView,GroupMypageView,RecruitmentDetailView,RecruitmentListView
     
 )
@@ -14,10 +13,12 @@ urlpatterns = [
     path('regist/', RegistUserView.as_view(), name='regist'),
     path('user_login/', UserLoginView.as_view(), name='user_login'),
     # path('user_logout/', UserLogoutView.as_view(), name='user_logout'),
-    path('user_logout/', CustomLogoutView.as_view(), name='user_logout'),
+    # path('user_logout/', CustomLogoutView.as_view(), name='user_logout'),
     path('user/', UserView.as_view(), name='user'),
     path('user_mypage/', UserMypageView.as_view(), name='user_mypage'),  # 里親の遷移先
     path('group_mypage/',GroupMypageView.as_view(), name='group_mypage'),  # 保護団体の遷移先
+    path('user_logout/', views.custom_logout_view, name='user_logout'),
+
 
     path('recruitment_search/', RecruitmentSearchView.as_view(), name='recruitment_search'),
     path('user_info_change/', UserInfoChangeView.as_view(), name='user_info_change'), # type: ignore

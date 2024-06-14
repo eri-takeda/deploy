@@ -1,0 +1,13 @@
+.messages .error {
+    color: red;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: inline-block;
+    width: 120px; /* ラベルの幅を適宜調整 */
+}

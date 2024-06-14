@@ -58,10 +58,10 @@ class RegistForm(forms.ModelForm):
     username = forms.CharField(label='名前')
     age = forms.IntegerField(label='年齢', min_value=0)
     email = forms.EmailField(label='メールアドレス')
+    password = forms.CharField(label='パスワード', widget=forms.PasswordInput())
     prefecture = forms.ChoiceField(label='都道府県', choices=PREFECTURES)
     address = forms.CharField(label='住所')  
     user_type = forms.ChoiceField(label='ユーザタイプ', choices=[('user', '里親'), ('group', '保護団体')])  # 追加
-    password = forms.CharField(label='パスワード', widget=forms.PasswordInput())
 
     class Meta:
         model = Users
