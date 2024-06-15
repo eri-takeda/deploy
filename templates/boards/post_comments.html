@@ -3,36 +3,38 @@
 {% block title %}掲示板投稿画面 - ネコイル{% endblock %}
 
 {% block content %}
-<div style="margin-top: 100px; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
-
+<div style="margin-top: 100px; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; margin-left: auto; margin-right: auto;">
 
 <h3>{{ theme.title }}</h3>
 
 {% for comment in comments %}
-
-<div class="col-1 offset-1">
-  {% if comment.user.picture %}
-   <img style="float:left;" width="50px" height="50px" src="{{ comment.user.picture.url }}">
-  {% endif %}
-</div>
-<div class="col-8 offset-2">
-  <p>投稿者: {{ comment.user.username }}</p>
-  <p>{{ comment.comment | linebreaks }}</p>
-</div>
-<div class="col-10 offset-1">
-<hr>
+<div class="comment">
+    <div class="col-1 offset-1">
+        {% if comment.user.picture %}
+        <img style="float:left;" width="50px" height="50px" src="{{ comment.user.picture.url }}">
+        {% endif %}
+    </div>
+    <div class="col-8 offset-2">
+        <p>投稿者: {{ comment.user.username }}</p>
+        <p>{{ comment.comment | linebreaks }}</p>
+    </div>
+    <div class="col-10 offset-1">
+        <hr>
+    </div>
 </div>
 {% endfor %}
-{% if user.is_authenticated %}
-<form method="POST">
-    {% csrf_token %}
-    {{ post_comment_form.as_p }}
-    <input type="submit" value="コメント送信" class="button">
-</form>
-{% endif %}
 
-  <a href="{% url 'boards:list_themes' %}"class="button">掲示板一覧に戻る</a>
+{% if user.is_authenticated %}
+<div style="margin-top: 20px; max-height: 300px; overflow-y: auto;">
+    <form method="POST">
+        {% csrf_token %}
+        {{ post_comment_form.as_p }}
+    </form>
+</div>
+{% endif %}
+<input type="submit" value="コメント送信" class="button">
+
+<a href="{% url 'boards:list_themes' %}" class="button" style="margin-top: 10px;">掲示板一覧に戻る</a>
 
 </div>
 {% endblock %}
-

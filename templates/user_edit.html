@@ -2,52 +2,128 @@
 {% block title %}ユーザ情報変更画面 - ネコイル{% endblock %}
 
 {% block content %}
-<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+<style>
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .alert-danger {
+        color: red; /* エラーメッセージのテキストを赤色にする */
+    }
+    
+</style>
+
+
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 850px; height: 900px; margin-left: auto; margin-right: auto;">
     <h2>ユーザ情報変更</h2>
-<br>
+    <br>
+
+    <!-- フォームエラーメッセージの表示 -->
+    {% if user_edit_form.errors %}
+        <div class="alert alert-danger">
+            <strong>エラーが発生しました:</strong>
+            <ul>
+                {% for field in user_edit_form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- 更新完了メッセージの表示 -->
     {% if messages %}
         {% for message in messages %}
-            <div>{{ message.message }}</div>
+            <div>{{ message | slice:'1:' }}</div>
         {% endfor %}
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px;">
         {% csrf_token %}
+
         <div>
-            <label for="id_username" style="width: 150px;">ユーザ名:</label>
+            <label for="id_username" style="width: 150px;">名前:</label>
             {{ user_edit_form.username }}
+            <!-- フィールド単位のエラーメッセージ表示 -->
+            {% if user_edit_form.username.errors %}
+                <ul class="errorlist">
+                    {% for error in user_edit_form.username.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
 
         <div>
-            <label for="id_email" style="width: 150px; ">メールアドレス:</label>
-            {{ user_edit_form.email }}
+            <label for="id_age" style="width: 150px;">年齢:</label>
+            {{ user_edit_form.age }}
+            <!-- フィールド単位のエラーメッセージ表示 -->
+            {% if user_edit_form.age.errors %}
+                <ul class="errorlist">
+                    {% for error in user_edit_form.age.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
-        <!-- 他のフォームも同様に追加 -->
-        
+
+        <div>
+            <label for="id_email" style="width: 150px;">メールアドレス:</label>
+            {{ user_edit_form.email }}
+            <!-- フィールド単位のエラーメッセージ表示 -->
+            {% if user_edit_form.email.errors %}
+                <ul class="errorlist">
+                    {% for error in user_edit_form.email.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="id_prefecture" style="width: 150px;">都道府県:</label>
+            {{ user_edit_form.prefecture }}
+            <!-- フィールド単位のエラーメッセージ表示 -->
+            {% if user_edit_form.prefecture.errors %}
+                <ul class="errorlist">
+                    {% for error in user_edit_form.prefecture.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="id_address" style="width: 150px;">住所:</label>
+            {{ user_edit_form.address }}
+            <!-- フィールド単位のエラーメッセージ表示 -->
+            {% if user_edit_form.address.errors %}
+                <ul class="errorlist">
+                    {% for error in user_edit_form.address.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="id_user_type" style="width: 150px;">ユーザタイプ:</label>
+            {{ user_edit_form.user_type }}
+            <!-- フィールド単位のエラーメッセージ表示 -->
+            {% if user_edit_form.user_type.errors %}
+                <ul class="errorlist">
+                    {% for error in user_edit_form.user_type.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
         <input type="submit" value="更新" class="button" style="margin-top: 20px;">
-        <a href="{% url 'accounts:home' %}" class="button">Topへ</a>
+        <a href="{% url 'accounts:mypage_redirect' %}" class="button">Topへ</a>
+
     </form>
 </div>
 {% endblock %}
-
-
-
-
-{% comment %} {% extends "base.html" %}
-{% block title %}ユーザ情報変更画面 - ネコイル{% endblock %}
-
-{% block content %}
-<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
-<h2>ユーザ情報変更</h2>
-
-{% if messages %}
-  {% for message in messages %}
-    <div>{{ message.message }}</div>
-  {% endfor %}
-{% endif %}
-<form method="POST" enctype="multipart/form-data">
-{% csrf_token %}
-{{ user_edit_form.as_p }}
-<input type="submit" value="更新" class="button">
-</form>
-{% endblock %} {% endcomment %}

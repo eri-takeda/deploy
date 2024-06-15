@@ -17,7 +17,7 @@ class DeleteThemeForm(forms.ModelForm):
         fields = []
 
 class PostCommentForm(forms.ModelForm):
-    comment = forms.CharField(label='', widget=forms.Textarea(attrs={'rows': 5, 'cols': 60}))
+    comment = forms.CharField(label='', widget=forms.Textarea(attrs={'rows': 5, 'cols': 60}), max_length=100)
 
     class Meta:
         model = Comments

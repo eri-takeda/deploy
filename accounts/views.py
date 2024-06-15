@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from .forms import RegistForm
 from django.http import HttpResponse
+from django.views import View
 
 
 
@@ -89,18 +90,19 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+#ユーザ情報変更画面
 @login_required
 def user_edit(request):
     user_edit_form = UserEditForm(request.POST or None, request.FILES or None, instance=request.user)
-    if user_edit_form.is_valid():
-        messages.success(request, '更新完了しました。')
-        user_edit_form.save()
-    return render(request, 'user_edit.html', context={
-        'user_edit_form': user_edit_form,
-    })
+    if request.method == 'POST':
+        if user_edit_form.is_valid():
+            user_edit_form.save()
+            messages.success(request, '更新完了しました。')
+            return redirect('accounts:user_login')  # ログイン画面にリダイレクトする場合、適切なURLを設定する
+        else:
+            messages.error(request, '更新に失敗しました。再度試してください。')
 
-
-
+    return render(request, 'user_edit.html', {'user_edit_form': user_edit_form})
 
 # class UserLogoutView(LogoutView):
 #     pass
@@ -171,17 +173,6 @@ class UserInfoChangeView(View):
 
 
 from django.views.generic import ListView
-
-class MessageBoxView(ListView):
-
-    # あるいは、以下のようにget_queryset()メソッドをオーバーライドすることもできます
-    # def get_queryset(self):
-    #     return Message.objects.all()
-
-    template_name = 'message_box.html'  # テンプレート名を指定
-    context_object_name = 'messages'  # コンテキストオブジェクト名を指定
-
-
 from django.views.generic.base import TemplateView
 
 class GroupMypageView(TemplateView):
@@ -202,25 +193,7 @@ class RecruitmentDetailView(DetailView):
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Cat,Recruiting
-# from .forms import CatRecruitmentForm # 新しく作成するフォーム
 from django.utils.functional import SimpleLazyObject
-
-#クラスベースいったんすべてコメントアウト
-
-# class RecruitmentCreateView(LoginRequiredMixin, CreateView):
-#     model = Cat
-#     form_class = CatRecruitmentForm  # 新しく作成するフォームを指定
-#     template_name = 'recruitment_change.html'
-#     success_url = reverse_lazy('accounts:recruitment_list')
-
-#     def form_valid(self, form):
-#         # フォームのデータが妥当である場合に呼び出される
-#         cat_instance = form.save(commit=False)
-#         cat_instance.user = self.request.user  # ユーザーを猫に関連付ける
-#         cat_instance.save()
-#         recruiting_instance = Recruiting(cat=cat_instance, is_closed=form.cleaned_data['is_closed'])
-#         recruiting_instance.save()
-#         return super().form_valid(form)
 
 class RecruitmentListView(ListView):
     model = Cat
@@ -231,36 +204,6 @@ from .models import Cat
 def recruitment_list(request):
     cats = Cat.objects.all()
     return render(request, 'recruitment_list.html', {'cats': cats})
-
-# class RecruitmentUpdateView(UpdateView):
-#     model = Cat
-#     fields = ['image', 'gender', 'age', 'color', 'birthplace', 'spayed']    
-#     template_name = 'recruitment_change.html'
-#     success_url = reverse_lazy('accounts:recruitment_list')
-
-
-# class RecruitmentDeleteView(DeleteView):
-#     model = Cat
-#     # template_name = 'recruitment_confirm_delete.html'
-#     template_name = 'recruitment_change.html'
-
-#     success_url = reverse_lazy('accounts:recruitment_list')
-
-
-# from django.shortcuts import render, redirect
-# from .forms import CatRecruitmentForm
-
-# def cat_create(request):
-#     if request.method == 'POST':
-#         form = CatRecruitmentForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('accounts:recruitment_list')  # 登録後にリダイレクトするURLを指定してください
-#     else:
-#         form = CatRecruitmentForm()
-#     return render(request, 'recruitment_change.html', {'form': form})
-
-
 
 #関数ベース
 # views.py
@@ -425,4 +368,21 @@ def cat_delete(request, cat_id):
         cat.delete()
         return redirect('accounts:recruitment_list')
     return render(request, 'cat_delete.html', {'cat': cat})
+
+
+
+#0615
+class MypageRedirectView(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.user_type == 'user':  # 里親ユーザの場合
+            return redirect(reverse_lazy('accounts:user_mypage'))
+        elif request.user.user_type == 'group':  # 保護団体ユーザの場合
+            return redirect(reverse_lazy('accounts:group_mypage'))
+        else:
+            # その他の場合に適切な処理を記述（例えば、ログイン後のデフォルトのページなど）
+            pass
+
+
+
+
 

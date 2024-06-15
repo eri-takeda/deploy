@@ -11,6 +11,8 @@
 {{ edit_cat_form.as_p }}
 <input type="submit" value="更新"class="button">
 <a class="navbar-brand button" href="{% url 'boards:cat_delete' id=id %}">削除する</a>
+<a href="{% url 'accounts:group_mypage' %}" class="button" style="margin-top: 10px;">戻る</a>
+
 </form>
 
 {% endblock %}
