@@ -2,7 +2,6 @@
 
 {% block title %}ねこ募集一覧画面 - ネコイル{% endblock %}
 
-
 {% block content %}
 <div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 850px; height: 950px; margin-left: auto; margin-right: auto;">
 
@@ -22,7 +21,7 @@
       <th>色</th>
       <th>生まれた場所</th>
       <th>避妊済み</th>
-      <th>作成者</th> 
+      <th>作成者</th>
     </tr>
   </thead>
   <tbody>
@@ -43,10 +42,14 @@
         <td>{% if cat.spayed %}避妊済み{% else %}未避妊{% endif %}</td>
 
         <td>
-            {% if theme.user.username.id == user.username.id %}
-                <a href="{% url 'boards:cat_edit' id=cat.id %}">{{ cat.user.username }}</a>
+            {% if request.user.is_authenticated %}
+                {% if request.user.is_staff or cat.user == request.user %}
+                    <a href="{% url 'boards:cat_edit' id=cat.id %}">{{ cat.user.username }}</a>
+                {% else %}
+                    {{ cat.user.username }}
+                {% endif %}
             {% else %}
-                {{ cat.user.username }}
+                ログインしていません
             {% endif %}
         </td>
     </tr>
@@ -72,11 +75,9 @@
     </span>
 </div>
 
-
 <div>
 <a href="{% url 'boards:cat_search' %}" class="button">募集ねこ検索へ</a>
 <a href="{% url 'accounts:mypage_redirect' %}" class="button">Topへ</a>
-
 </div>
 
 {% endblock %}

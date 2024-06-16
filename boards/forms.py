@@ -205,11 +205,19 @@ class SearchCatForm(forms.Form):
         ('沖縄県', '沖縄県'),
     ]
 
-    birthplace = forms.ChoiceField(label='生まれた場所', choices=BIRTHPLACE_CHOICES, required=False)
+    birthplace = forms.ChoiceField(label='生まれた場所', choices=BIRTHPLACE_CHOICES, required=False,initial=None)  # 初期値を空に設定
+
     age = forms.ChoiceField(label='年齢', choices=AGE_CHOICES, required=False)
     color = forms.ChoiceField(label='色', choices=COLOR_CHOICES, required=False)
     gender = forms.ChoiceField(label='性別', choices=GENDER_CHOICES, required=False)
     spayed = forms.BooleanField(label='避妊・去勢済み', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['age'].required = False
+        self.fields['color'].required = False
+        self.fields['gender'].required = False
+        self.fields['spayed'].required = False
 
     class Meta:
         model = Cats

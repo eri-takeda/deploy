@@ -7,9 +7,48 @@
         list-style: none;
         padding: 0;
     }
+    .messages li {
+        color: red; /* エラーメッセージを赤文字で表示 */
+    }
+    .form-group {
+        margin-bottom: 20px; /* フォームグループの下にスペースを設ける */
+        width: 100%; /* フォームグループの幅を100%にする */
+        max-width: 400px; /* フォームグループの最大幅を設定 */
+        margin-left: auto; /* 左側のマージンを自動 */
+        margin-right: auto; /* 右側のマージンを自動 */
+    }
+    label {
+        display: block; /* ラベルをブロック要素として表示して縦に整列 */
+        margin-bottom: 5px; /* ラベルの下に少しスペースを設ける */
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="submit"],
+    a.button {
+        width: 100%; /* 入力フィールドの幅を100%にする */
+        padding: 10px; /* 入力フィールドの内側のパディング */
+        border: 1px solid #ddd; /* ボーダーの設定 */
+        border-radius: 4px; /* 角丸 */
+        margin-bottom: 10px; /* 各要素の下にマージンを設定 */
+        box-sizing: border-box; /* ボーダーボックスモデルを使用して、パディングとボーダーを含む要素の全幅を指定 */
+    }
+    .button-container {
+        margin-top: 20px; /* ボタンとリンクの上にスペースを設ける */
+        text-align: center; /* ボタンを中央揃え */
+    }
+    .button {
+        padding: 10px 20px; /* ボタンのパディング */
+        background-color: #007bff; /* ボタンの背景色 */
+        color: #fff; /* ボタンの文字色 */
+        border: none; /* ボーダーをなくす */
+        border-radius: 4px; /* 角丸 */
+        text-decoration: none; /* リンクの下線をなくす */
+        margin-right: 10px; /* ボタンの右側のマージン */
+        width: auto; /* ボタンの幅を自動調整 */
+    }
 </style>
 
-<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
+<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 750px; margin-left: auto; margin-right: auto;">
     <h1>ログイン</h1>
 
      {% if messages %}
@@ -23,22 +62,21 @@
 
     <form method="POST">
         {% csrf_token %}
-         <div class="form-group">
-            <label for="id_username">ユーザー名:</label>
+        <div class="form-group">
+            <label for="id_username">メールアドレス</label>
             {{ form.username }}
         </div>
         <div class="form-group">
-            <label for="id_password">パスワード:</label>
+            <label for="id_password">パスワード</label>
             {{ form.password }}
         </div>
 
         <input type="hidden" name="next" value="{{ request.GET.next }}">
         <div class="button-container">
-            <input type="submit" value="ログイン"class="button">
+            <input type="submit" value="ログイン" class="button">
             <a href="{% url 'accounts:home' %}" class="button">戻る</a>
         </div>
     </form>
-<div>
-
+</div>
 
 {% endblock %}

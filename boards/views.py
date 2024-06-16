@@ -64,7 +64,7 @@ def post_comments(request, theme_id):
     print(request.user.is_authenticated)
     post_comment_form = forms.PostCommentForm(request.POST or None)
     theme = get_object_or_404(Themes, id=theme_id)
-    comments = Comments.objects.fetch_by_theme_id(theme_id) # type: ignore
+    comments = Comments.objects.filter(theme=theme) 
     if post_comment_form.is_valid():
         post_comment_form.instance.theme = theme
         post_comment_form.instance.user = request.user

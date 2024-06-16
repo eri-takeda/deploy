@@ -74,6 +74,10 @@ class UserLoginView(LoginView):
             self.request.session.set_expiry(1200000)
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        # ログインに失敗した場合の処理
+        messages.error(self.request, "ログインに失敗しました。登録のメールアドレスとパスワードを確認してください。")
+        return super().form_invalid(form)
 
 
 from django.contrib.auth import logout
@@ -384,5 +388,9 @@ class MypageRedirectView(LoginRequiredMixin, View):
 
 
 
-
+#0615---未登録のユーザのログイン--
+from django.contrib import messages
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
