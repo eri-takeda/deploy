@@ -32,11 +32,14 @@ def edit_theme(request, id):
     theme = get_object_or_404(Themes, id=id)
     if theme.user.id != request.user.id:
         raise Http404
+    
     edit_theme_form = forms.CreateThemeForm(request.POST or None, instance=theme)
+
     if edit_theme_form.is_valid():
         edit_theme_form.save()
         messages.success(request, '掲示板を更新しました')
         return redirect('boards:list_themes')
+    
     return render(
         request, 'boards/edit_theme.html', context={
             'edit_theme_form': edit_theme_form,
@@ -124,26 +127,52 @@ def cat_list(request):
             if spayed is not None:
                 cats = cats.filter(spayed=spayed)
 
+    # メッセージの取得
+    messages_data = messages.get_messages(request)
+
     context = {
         'cat_search_form': SearchCatForm(initial=request.GET),
         'cats': cats,
+        'messages': messages_data,  # メッセージをテンプレートに渡す
     }
     return render(request, 'boards/cat_list.html', context)
 
+# # 猫の編集ビュー
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Cats
+from .forms import EditCatForm
 
-
-
-# 猫の編集ビュー
 def cat_edit(request, id):
     cat = get_object_or_404(Cats, id=id)
+
+    # 猫の作成者以外のユーザーがアクセスした場合、404エラーを返す
     if cat.user.id != request.user.id:
         raise Http404
-    edit_cat_form = forms.EditCatForm(request.POST or None, request.FILES or None, instance=cat)
+
+    edit_cat_form = EditCatForm(request.POST or None, request.FILES or None, instance=cat)
+
     if edit_cat_form.is_valid():
         edit_cat_form.save()
         messages.success(request, '猫の情報を更新しました')
-        return redirect('boards:cat_list')
+        return redirect('boards:cat_list')  # 猫一覧ビューにリダイレクト
+
     return render(request, 'boards/cat_edit.html', context={'edit_cat_form': edit_cat_form, 'id': id})
+
+
+
+# # 猫の編集ビュー
+# def cat_edit(request, id):
+#     cat = get_object_or_404(Cats, id=id)
+#     if cat.user.id != request.user.id:
+#         raise Http404
+#     edit_cat_form = forms.EditCatForm(request.POST or None, request.FILES or None, instance=cat)
+#     if edit_cat_form.is_valid():
+#         edit_cat_form.save()
+#         messages.success(request, '猫の情報を更新しました')
+#         return redirect('boards:cat_list')
+#     return render(request, 'boards/cat_edit.html', context={'edit_cat_form': edit_cat_form, 'id': id})
+
 
 # 猫の削除ビュー
 def cat_delete(request, id):

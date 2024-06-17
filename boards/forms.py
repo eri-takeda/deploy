@@ -133,23 +133,37 @@ class CreateCatForm(forms.ModelForm):
 class EditCatForm(forms.ModelForm):
 
     GENDER_CHOICES = [
-        ('male', 'オス'),
-        ('female', 'メス'),
+        ('', '選択してください'),        
+        ('オス', 'オス'),
+        ('メス', 'メス'),
     ]
 
     COLOR_CHOICES = [
-        ('black', '黒'),
-        ('white', '白'),
-        ('brown', '茶'),
-        ('other', 'その他'),
+        ('', '選択してください'),
+        ('黒', '黒'),
+        ('白', '白'),
+        ('茶', '茶'),
+        ('その他', 'その他'),
     ]
 
     AGE_CHOICES = [
-        (0, '子猫 (1歳未満)'),
-        (1, '成猫 (1歳以上)'),
+        ('', '選択してください'),
+        ('0', '0歳'),
+        ('1', '1歳'),
+        ('2', '2歳'),
+        ('3', '3歳'),
+        ('4', '4歳'),
+        ('5', '5歳'),
+        ('6', '6歳'),
+        ('7', '7歳'),
+        ('8', '8歳'),
+        ('9', '9歳'),
+        ('10', '10歳'),
+        ('11', '11歳以上'),
     ]
 
     PREFECTURE_CHOICES = [
+        ('', '選択してください'),
         ('北海道', '北海道'),
         ('青森県', '青森県'),
         ('岩手県', '岩手県'),
@@ -200,6 +214,7 @@ class EditCatForm(forms.ModelForm):
     ]
 
     SPAYED_CHOICES = [
+        ('', '選択してください'),
         (True, '済'),
         (False, '未'),
     ]
@@ -210,7 +225,7 @@ class EditCatForm(forms.ModelForm):
     age = forms.ChoiceField(label='年齢', choices=AGE_CHOICES)
     color = forms.ChoiceField(label='毛色', choices=COLOR_CHOICES)
     birthplace = forms.ChoiceField(label='出身地', choices=PREFECTURE_CHOICES)
-    spayed = forms.ChoiceField(label='去勢状況', choices=SPAYED_CHOICES)
+    spayed = forms.ChoiceField(label='避妊・去勢状況', choices=SPAYED_CHOICES)
     class Meta:
         model = Cats
         fields = ['image', 'gender', 'age', 'color', 'birthplace', 'spayed']
@@ -245,8 +260,18 @@ class SearchCatForm(forms.Form):
 
     AGE_CHOICES = [
         ('', '選択してください'),
-        ('0', '子猫(1歳未満)'),
-        ('1', '成猫(1歳以上)'),
+        ('0', '0歳'),
+        ('1', '1歳'),
+        ('2', '2歳'),
+        ('3', '3歳'),
+        ('4', '4歳'),
+        ('5', '5歳'),
+        ('6', '6歳'),
+        ('7', '7歳'),
+        ('8', '8歳'),
+        ('9', '9歳'),
+        ('10', '10歳'),
+        ('11', '11歳以上'),
     ]
 
     COLOR_CHOICES = [

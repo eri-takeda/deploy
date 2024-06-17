@@ -1,56 +1,134 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% block title %}ユーザ登録 - ネコイル{% endblock %}
-
 {% block content %}
-<div style="margin-top: 100px; text-align: center; border: 2px solid #ddd; border-radius: 10px; width: 50%; margin-left: auto; margin-right: auto; padding: 20px; background-color: #f8f8ff; height: 750px;">
+<style>
+
+    /* 年齢の入力フィールドのスタイル */
+    .form-group .age-input {
+        width: 100px; /* 年齢フィールドの幅を100pxに設定 */
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    /* 全体のスタイル */
+    .form-container {
+        margin-top: 100px;
+        text-align: center;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        background-color: #f8f8ff;
+    }
+
+    /* ボタンのスタイル */
+    .button {
+        display: block;
+        width: 100%;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+
+    /* フォームグループのスタイル */
+    .form-group {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* ラベルのスタイル */
+    .form-group label {
+        display: inline-block;
+        width: 150px;
+        text-align: right;
+        margin-right: 20px;
+        font-weight: bold;
+    }
+
+    /* その他の入力フィールドのスタイル */
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group select {
+        width: 50%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    /* エラーメッセージのスタイル */
+    .error-message {
+        color: red;
+        margin-top: 10px;
+        text-align: center;
+    }
+</style>
+
+<div class="form-container">
     <h2>ユーザ登録</h2>
     <form method="POST">
         {% csrf_token %}
-        
+
         <!-- パスワードフィールドのバリデーションエラーメッセージ -->
         {% if form.password.errors %}
-            <p style="color: red;">
+            <div class="error-message">
             {% for error in form.password.errors %}
                 {{ error }}<br>
             {% endfor %}
-            </p>
+            </div>
         {% endif %}
 
+        <!-- 各フォームグループ -->
         <div class="form-group">
-            <label for="id_username" style="display: inline-block; width: 100px; text-align: right;">名前:</label>
+            <label for="id_username">名前:</label>
             {{ form.username }}
         </div>
         <div class="form-group">
-            <label for="id_age" style="display: inline-block; width: 100px; text-align: right;">年齢:</label>
+            <label for="id_age">年齢:</label>
             {{ form.age }}
         </div>
         <div class="form-group">
-            <label for="id_email" style="display: inline-block; width: 100px; text-align: right;">メールアドレス:</label>
+            <label for="id_email">メールアドレス:</label>
             {{ form.email }}
         </div>
         <div class="form-group">
-            <label for="id_password" style="display: inline-block; width: 100px; text-align: right;">パスワード:</label>
+            <label for="id_password">パスワード:</label>
             {{ form.password }}
         </div>
         <div class="form-group">
-            <label for="id_prefecture" style="display: inline-block; width: 100px; text-align: right;">都道府県:</label>
+            <label for="id_prefecture">都道府県:</label>
             {{ form.prefecture }}
         </div>
         <div class="form-group">
-            <label for="id_address" style="display: inline-block; width: 100px; text-align: right;">住所:</label>
+            <label for="id_address">住所:</label>
             {{ form.address }}
         </div>
         <div class="form-group">
-            <label for="id_user_type" style="display: inline-block; width: 100px; text-align: right;">ユーザタイプ:</label>
+            <label for="id_user_type">ユーザタイプ:</label>
             {{ form.user_type }}
         </div>
 
-        <!-- 他のフィールドのバリデーションエラーメッセージも同様に追加 -->
-
-        <input type="submit" value="ユーザ登録" style="padding: 10px 20px; font-size: 16px; background-color: #add8e6; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; display: inline-block;">
-    
-        <a href="{% url 'accounts:home' %}" style="display: inline-block; padding: 10px 20px; font-size: 16px; background-color: #add8e6; color: #fff; text-decoration: none; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">戻る</a> 
+        <!-- ボタンのコンテナ -->
+        <div class="button-container">
+            <input type="submit" value="ユーザ登録" class="button">
+            <a href="{% url 'accounts:home' %}" class="button">戻る</a>
+        </div>
     </form>
 </div>
 {% endblock %}
