@@ -219,15 +219,15 @@ from .models import Cat
 #募集内容変更画面
 
 GENDER_CHOICES = [
-    ('male', 'オス'),
-    ('female', 'メス'),
+    ('オス', 'オス'),
+    ('メス', 'メス'),
 ]
 
 COLOR_CHOICES = [
-    ('black', '黒'),
-    ('white', '白'),
-    ('brown', '茶'),
-    ('other', 'その他'),
+    ('黒', '黒'),
+    ('白', '白'),
+    ('茶', '茶'),
+    ('その他', 'その他'),
 ]
 
 AGE_CHOICES = [

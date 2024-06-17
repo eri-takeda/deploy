@@ -37,7 +37,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
+    age = models.IntegerField()
     prefecture = models.CharField(max_length=100, blank=True, null=True)  # 追加
     address = models.CharField(max_length=255, blank=True, null=True)  # 追加
     user_type = models.CharField(max_length=50, blank=True, null=True)  # 追加
