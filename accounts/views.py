@@ -101,7 +101,7 @@ def user_edit(request):
     if request.method == 'POST':
         if user_edit_form.is_valid():
             user_edit_form.save()
-            messages.success(request, '更新完了しました。')
+            messages.success(request, '更新完了しました')
             return redirect('accounts:user_login')  # ログイン画面にリダイレクトする場合、適切なURLを設定する
         else:
             messages.error(request, '更新に失敗しました。再度試してください。')
@@ -293,7 +293,7 @@ class CatRecruitmentForm(forms.ModelForm):
     color = forms.ChoiceField(label='毛色', choices=COLOR_CHOICES, required=True)
     birthplace = forms.ChoiceField(label='出身地', choices=PREFECTURE_CHOICES, required=True)
     image = forms.ImageField(label='写真', required=True)  
-    spayed = forms.BooleanField(label='避妊済み', required=True)
+    spayed = forms.BooleanField(label='避妊済', required=True)
     is_closed = forms.ChoiceField(label='募集状況', choices=[('open', '募集中'), ('closed', '募集終了')], required=True)
 
     class Meta:

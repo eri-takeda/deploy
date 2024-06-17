@@ -3,62 +3,61 @@
 {% block content %}
 
 <style>
-    ul {
+  .button-container {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  
+.button {
+    display: block; /* ボタンをブロック要素として表示 */
+    width: 50%; /* ボタンの幅を50%にする */
+    padding: 10px 20px; /* パディングを10px上下、20px左右に統一 */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 10px; /* ボタン間にマージンを設定 */
+  }
+
+  ul {
         list-style: none;
         padding: 0;
-    }
-    .messages li {
-        color: red; /* エラーメッセージを赤文字で表示 */
-    }
-    .form-group {
-        margin-bottom: 20px; /* フォームグループの下にスペースを設ける */
-        width: 100%; /* フォームグループの幅を100%にする */
-        max-width: 400px; /* フォームグループの最大幅を設定 */
-        margin-left: auto; /* 左側のマージンを自動 */
-        margin-right: auto; /* 右側のマージンを自動 */
-    }
-    label {
-        display: block; /* ラベルをブロック要素として表示して縦に整列 */
-        margin-bottom: 5px; /* ラベルの下に少しスペースを設ける */
-    }
-    input[type="text"],
-    input[type="password"],
-    input[type="submit"],
-    a.button {
-        width: 100%; /* 入力フィールドの幅を100%にする */
-        padding: 10px; /* 入力フィールドの内側のパディング */
-        border: 1px solid #ddd; /* ボーダーの設定 */
-        border-radius: 4px; /* 角丸 */
-        margin-bottom: 10px; /* 各要素の下にマージンを設定 */
-        box-sizing: border-box; /* ボーダーボックスモデルを使用して、パディングとボーダーを含む要素の全幅を指定 */
-    }
-    .button-container {
-        margin-top: 20px; /* ボタンとリンクの上にスペースを設ける */
-        text-align: center; /* ボタンを中央揃え */
-    }
-    .button {
-        padding: 10px 20px; /* ボタンのパディング */
-        background-color: #007bff; /* ボタンの背景色 */
-        color: #fff; /* ボタンの文字色 */
-        border: none; /* ボーダーをなくす */
-        border-radius: 4px; /* 角丸 */
-        text-decoration: none; /* リンクの下線をなくす */
-        margin-right: 10px; /* ボタンの右側のマージン */
-        width: auto; /* ボタンの幅を自動調整 */
-    }
+  }
+
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
 </style>
 
-<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 750px; margin-left: auto; margin-right: auto;">
+
+<div style="margin-top: 150px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 750px; height: 500px; margin-left: auto; margin-right: auto;">
     <h1>ログイン</h1>
 
-     {% if messages %}
+    {% if messages %}
     <ul class="messages">
         {% for message in messages %}
             <li class="{{ message.tags }}">{{ message }}</li>
         {% endfor %}
     </ul>
     {% endif %}
-
 
     <form method="POST">
         {% csrf_token %}
@@ -78,5 +77,6 @@
         </div>
     </form>
 </div>
+
 
 {% endblock %}

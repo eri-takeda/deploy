@@ -1,8 +1,48 @@
 {% extends "base.html" %}
-
 {% block title %}掲示板作成画面 - ネコイル{% endblock %}
-
 {% block content %}
+
+<style>
+  .button-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+ .button {
+    display: block; /* ボタンをブロック要素として表示 */
+    width: 70%; /* ボタンの幅を70%にする */
+    padding: 10px 20px; /* パディングを10px上下、20px左右に統一 */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 10px; /* ボタン間にマージンを設定 */
+  }
+  
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  textarea {
+    width: 70%; /* 幅を70%にする */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+</style>
+
+
 <div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 700px; height: 650px; margin-left: auto; margin-right: auto;">
 
 

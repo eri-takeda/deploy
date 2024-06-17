@@ -1,25 +1,94 @@
 {% extends "base.html" %}
 {% block title %}ユーザ情報変更画面 - ネコイル{% endblock %}
-
 {% block content %}
+
 <style>
+    /* 共通のCSSスタイル */
+    .button-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-bottom: 10px; /* ボタン間のマージンを追加 */
+        display: block; /* ボタンをブロック要素に変更 */
+        width: 100%; /* 幅を100%に設定 */
+        box-sizing: border-box; /* ボタンのpaddingが含まれるように */
+    }
+
     ul {
         list-style: none;
         padding: 0;
     }
 
     .alert-danger {
-        color: red; /* エラーメッセージのテキストを赤色にする */
+        color: red;
     }
-    
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        width: 150px; /* ラベルの幅を固定 */
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+        width: calc(100% - 160px); /* 幅を調整してコンパクトに */
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+
+    /* フォームの配置を調整 */
+    .form-container {
+        margin-top: 150px;
+        text-align: center;
+        padding: 20px;
+        background-color: #f8f8ff;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* フォーム内の要素の間隔を調整 */
+    .form-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* エラーメッセージのスタイル */
+    .alert-danger {
+        margin-bottom: 20px;
+        text-align: left;
+        padding: 10px;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 4px;
+    }
+
 </style>
 
-
-<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 850px; height: 900px; margin-left: auto; margin-right: auto;">
+<div class="form-container">
     <h2>ユーザ情報変更</h2>
-    <br>
 
-    <!-- フォームエラーメッセージの表示 -->
+    <!-- エラーメッセージ表示 -->
     {% if user_edit_form.errors %}
         <div class="alert alert-danger">
             <strong>エラーが発生しました:</strong>
@@ -33,18 +102,18 @@
         </div>
     {% endif %}
 
-    <!-- 更新完了メッセージの表示 -->
+    <!-- 更新完了メッセージ表示 -->
     {% if messages %}
         {% for message in messages %}
             <div>{{ message | slice:'1:' }}</div>
         {% endfor %}
     {% endif %}
 
-    <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px;">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <div>
-            <label for="id_username" style="width: 150px;">名前:</label>
+        <div style="display: flex; align-items: center;">
+            <label for="id_username">名前：</label>
             {{ user_edit_form.username }}
             <!-- フィールド単位のエラーメッセージ表示 -->
             {% if user_edit_form.username.errors %}
@@ -56,8 +125,8 @@
             {% endif %}
         </div>
 
-        <div>
-            <label for="id_age" style="width: 150px;">年齢:</label>
+        <div style="display: flex; align-items: center;">
+            <label for="id_age">年齢：</label>
             {{ user_edit_form.age }}
             <!-- フィールド単位のエラーメッセージ表示 -->
             {% if user_edit_form.age.errors %}
@@ -69,8 +138,8 @@
             {% endif %}
         </div>
 
-        <div>
-            <label for="id_email" style="width: 150px;">メールアドレス:</label>
+        <div style="display: flex; align-items: center;">
+            <label for="id_email">メールアドレス：</label>
             {{ user_edit_form.email }}
             <!-- フィールド単位のエラーメッセージ表示 -->
             {% if user_edit_form.email.errors %}
@@ -82,8 +151,8 @@
             {% endif %}
         </div>
 
-        <div>
-            <label for="id_prefecture" style="width: 150px;">都道府県:</label>
+        <div style="display: flex; align-items: center;">
+            <label for="id_prefecture">都道府県：</label>
             {{ user_edit_form.prefecture }}
             <!-- フィールド単位のエラーメッセージ表示 -->
             {% if user_edit_form.prefecture.errors %}
@@ -95,8 +164,8 @@
             {% endif %}
         </div>
 
-        <div>
-            <label for="id_address" style="width: 150px;">住所:</label>
+        <div style="display: flex; align-items: center;">
+            <label for="id_address">住所：</label>
             {{ user_edit_form.address }}
             <!-- フィールド単位のエラーメッセージ表示 -->
             {% if user_edit_form.address.errors %}
@@ -108,8 +177,8 @@
             {% endif %}
         </div>
 
-        <div>
-            <label for="id_user_type" style="width: 150px;">ユーザタイプ:</label>
+        <div style="display: flex; align-items: center;">
+            <label for="id_user_type">ユーザタイプ：</label>
             {{ user_edit_form.user_type }}
             <!-- フィールド単位のエラーメッセージ表示 -->
             {% if user_edit_form.user_type.errors %}
@@ -121,9 +190,10 @@
             {% endif %}
         </div>
 
-        <input type="submit" value="更新" class="button" style="margin-top: 20px;">
-        <a href="{% url 'accounts:mypage_redirect' %}" class="button">Topへ</a>
-
+        <div class="button-container">
+            <input type="submit" value="更新" class="button">
+            <a href="{% url 'accounts:mypage_redirect' %}" class="button">Topへ</a>
+        </div>
     </form>
 </div>
 {% endblock %}

@@ -54,6 +54,7 @@ PREFECTURES = [
 ]
 
 
+from django.core.exceptions import ValidationError
 class RegistForm(forms.ModelForm):
     username = forms.CharField(label='名前')
     age = forms.IntegerField(label='年齢', min_value=0)
@@ -67,17 +68,30 @@ class RegistForm(forms.ModelForm):
         model = Users
         fields = ['username', 'age', 'email', 'password', 'prefecture', 'address', 'user_type']  # 追加    
     
-    def save(self, commit=False):
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if password:
+            try:
+                validate_password(password, self.instance)
+            except ValidationError as e:
+                self.add_error('password', e)  # パスワードフィールドにエラーメッセージを追加
+                raise ValidationError('パスワードが無効です') from e
+        else:
+            raise ValidationError('パスワードが必要です')
+
+        return password
+    
+
+    def save(self, commit=True):
         user = super().save(commit=False)
-        validate_password(self.cleaned_data['password'], user)
         user.set_password(self.cleaned_data['password'])
-        user.save()
+
+        if commit:
+            user.save()
+
         return user
 
 
-# class UserLoginForm(forms.Form):
-#     email = forms.EmailField(label='メールアドレス')
-#     password = forms.CharField(label='パスワード', widget=forms.PasswordInput())
 
 
 class UserLoginForm(AuthenticationForm):

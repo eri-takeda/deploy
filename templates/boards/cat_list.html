@@ -1,83 +1,181 @@
 {% extends "base.html" %}
-
-{% block title %}ねこ募集一覧画面 - ネコイル{% endblock %}
+{% block title %}ねこ募集一覧{% endblock %}
 
 {% block content %}
-<div style="margin-top: 100px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 850px; height: 950px; margin-left: auto; margin-right: auto;">
+<style>
+    /* 全体のスタイル */
+    .table-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+    }
 
-{% if messages %}
-  {% for message in messages %}
-  <div>{{ message.message }}</div>
-  {% endfor %}
-{% endif %}
-<h3>ねこ募集一覧</h3>
-<table class="table table-striped table-hover">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>画像</th>
-      <th>性別</th>
-      <th>年齢</th>
-      <th>色</th>
-      <th>生まれた場所</th>
-      <th>避妊済み</th>
-      <th>作成者</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for cat in cats %}
-    <tr>
-        <td>{{ cat.id }}</td> <!-- IDを表示 -->
+    .button-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+ .button {
+    display: block; /* ボタンをブロック要素として表示 */
+    width:60%; /* ボタンの幅を50%にする */
+    padding: 10px 20px; /* パディングを10px上下、20px左右に統一 */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 10px; /* ボタン間にマージンを設定 */
+  }
+    
 
-        {% if cat.image %}
-            <td><img src="{{ cat.image.url }}" alt="{{ cat.image }}" width="100"></td>
-        {% else %}
-            <td>No Image</td>
-        {% endif %}
+    .cat-table {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-        <td>{{ cat.gender }}</td>
-        <td>{{ cat.age }}</td>
-        <td>{{ cat.color }}</td>
-        <td>{{ cat.birthplace }}</td>
-        <td>{% if cat.spayed %}避妊済み{% else %}未避妊{% endif %}</td>
+    .cat-table th,
+    .cat-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
 
-        <td>
-            {% if request.user.is_authenticated %}
-                {% if request.user.is_staff or cat.user == request.user %}
-                    <a href="{% url 'boards:cat_edit' id=cat.id %}">{{ cat.user.username }}</a>
-                {% else %}
-                    {{ cat.user.username }}
-                {% endif %}
-            {% else %}
-                ログインしていません
-            {% endif %}
-        </td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
+    .cat-table th {
+        background-color: #f2f2f2;
+        text-align: center;
+    }
 
-<div class="pagination">
-    <span class="step-links">
-        {% if cats.has_previous %}
-            <a href="?page=1">&laquo; 最初へ</a>
-            <a href="?page={{ cats.previous_page_number }}">前へ</a>
-        {% endif %}
+    /* フォームのスタイル */
+    #catSearchForm {
+        margin-bottom: 20px;
+    }
 
-        <span class="current">
-            ページ {{ cats.number }} / {{ cats.paginator.num_pages }}.
-        </span>
+    #catSearchForm div {
+        display: inline-block;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
 
-        {% if cats.has_next %}
-            <a href="?page={{ cats.next_page_number }}">次へ</a>
-            <a href="?page={{ cats.paginator.num_pages }}">最後へ &raquo;</a>
-        {% endif %}
-    </span>
+    #catSearchForm label {
+        display: inline-block;
+        margin-right: 5px;
+        font-weight: bold;
+        width: 59px;
+    }
+
+    input[type="text"],
+    select {
+        width: 176px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+</style>
+<div style="margin-top: 150px; text-align: center; padding: 20px; background-color: #f8f8ff; border: 2px solid #ddd; border-radius: 10px; width: 1650px; height: 800px; margin-left: auto; margin-right: auto;">
+
+<div class="table-container">
+    <h2>ねこ募集一覧</h2>
+
+    <!-- 検索フォーム -->
+    <form id="catSearchForm" method="GET" action="{% url 'boards:cat_list' %}">
+        <div>
+            <label for="id_gender">性別:</label>
+            {{ cat_search_form.gender }}
+        </div>
+        <div>
+            <label for="id_age">年齢:</label>
+            {{ cat_search_form.age }}
+        </div>
+        <div>
+            <label for="id_color">色:</label>
+            {{ cat_search_form.color }}
+        </div>
+        <div>
+            <label for="id_birthplace">出生地:</label>
+            {{ cat_search_form.birthplace }}
+        </div>
+        <div>
+            <label for="id_spayed">避妊済:</label>
+            {{ cat_search_form.spayed }}
+        </div>
+
+        <div class="button-container">
+            <button type="submit" class="button">検索</button>
+            <button type="button" onclick="clearForm()" class="button">クリア</button>
+        </div>
+    </form>
+
+    <!-- 検索結果表示 -->
+    {% if cats %}
+    <div class="table-container">
+        <table class="cat-table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>画像</th>
+                    <th>性別</th>
+                    <th>年齢</th>
+                    <th>色</th>
+                    <th>出生地</th>
+                    <th>避妊済</th>
+                    <th>作成者</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cat in cats %}
+                <tr>
+                    <td>{{ cat.id }}</td>
+                    {% if cat.image %}
+                    <td><img src="{{ cat.image.url }}" alt="{{ cat.image }}" width="100"></td>
+                    {% else %}
+                    <td>No Image</td>
+                    {% endif %}
+                    <td>{{ cat.gender }}</td>
+                    <td>{{ cat.age }}</td>
+                    <td>{{ cat.color }}</td>
+                    <td>{{ cat.birthplace }}</td>
+                    <td>{% if cat.spayed %}避妊済み{% else %}未避妊{% endif %}</td>
+                    <td>
+                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff or cat.user == request.user %}
+                        <a href="{% url 'boards:cat_edit' id=cat.id %}">{{ cat.user.username }}</a>
+                        {% else %}
+                        {{ cat.user.username }}
+                        {% endif %}
+                        {% else %}
+                        ログインしていません
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8">該当するねこは見つかりませんでした。</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>該当するねこは見つかりませんでした。</p>
+    {% endif %}
+
+
+    <div class="button-container">
+        <a href="{% url 'boards:cat_list' %}" class="button">検索前のねこ一覧へ戻る</a>
+        {% comment %} <a href="{% url 'boards:list_themes' %}" class="button">掲示板一覧へ</a> {% endcomment %}
+        <a href="{% url 'accounts:mypage_redirect' %}" class="button">Topへ</a>
+    </div>
 </div>
 
-<div>
-<a href="{% url 'boards:cat_search' %}" class="button">募集ねこ検索へ</a>
-<a href="{% url 'accounts:mypage_redirect' %}" class="button">Topへ</a>
-</div>
+<script>
+function clearForm() {
+    document.getElementById("id_gender").value = "";
+    document.getElementById("id_age").value = "";
+    document.getElementById("id_color").value = "";
+    document.getElementById("id_birthplace").value = "";
+    document.getElementById("id_spayed").checked = false;
+}
+</script>
 
 {% endblock %}

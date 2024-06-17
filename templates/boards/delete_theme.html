@@ -10,5 +10,7 @@
 {% csrf_token %}
 {{ delete_theme_form.as_p }}
 <input type="submit" value="削除する"class="button">
+<a href="{% url 'boards:list_themes' %}" class="button">戻る</a>
+
 </form>
 {% endblock %}

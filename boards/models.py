@@ -9,7 +9,7 @@ class ThemesManager(models.Manager):
 
 class Themes(models.Model):
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(verbose_name='タイトル', max_length=100)
     user = models.ForeignKey(
         'accounts.Users', on_delete=models.CASCADE
     )
@@ -52,7 +52,7 @@ class Cats(models.Model):
     gender = models.CharField(max_length=10)  # 性別
     age = models.IntegerField()  # 年齢
     color = models.CharField(max_length=50)  # 色
-    birthplace = models.CharField(max_length=100)  # 生まれた場所
+    birthplace = models.CharField(max_length=100)  # 出生地
     spayed = models.BooleanField(default=False)  # 避妊済みかどうか
     user = models.ForeignKey(
         'accounts.Users', on_delete=models.CASCADE

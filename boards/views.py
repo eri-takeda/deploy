@@ -11,7 +11,7 @@ def create_theme(request):
     if create_theme_form.is_valid():
         create_theme_form.instance.user = request.user
         create_theme_form.save()
-        messages.success(request, '掲示板を作成しました。')
+        messages.success(request, '掲示板を作成しました')
         return redirect('boards:list_themes')
     return render(
         request, 'boards/create_theme.html', context={
@@ -88,25 +88,49 @@ def cat_create(request):
     if create_cat_form.is_valid():
         create_cat_form.instance.user = request.user
         create_cat_form.save()
-        messages.success(request, '猫の情報を作成しました。')
+        messages.success(request, '猫の情報を作成しました')
         return redirect('boards:cat_list')
     return render(request, 'boards/cat_create.html', context={'create_cat_form': create_cat_form})
 
-# 猫のリスト表示ビュー
+
+
+# 猫のリストビュー(0617改定)
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
+from .models import Cats
+from .forms import SearchCatForm
+
 def cat_list(request):
-    cats = Cats.objects.all()  # Catsモデルからデータを取得
-    paginator = Paginator(cats, 5)  # ページごとに5件ずつ表示
-    page_number = request.GET.get('page')
-    try:
-        page_cats = paginator.page(page_number)
-    except PageNotAnInteger:
-        # pageパラメータが整数でない場合、最初のページを表示
-        page_cats = paginator.page(1)
-    except EmptyPage:
-        # pageが範囲外の場合、最後のページを表示
-        page_cats = paginator.page(paginator.num_pages)
-    return render(request, 'boards/cat_list.html', {'cats': page_cats})
+    cats = Cats.objects.all()  # Catsモデルからすべてのデータを取得
+
+    if request.method == 'GET':
+        form = SearchCatForm(request.GET)
+        if form.is_valid():
+            gender = form.cleaned_data.get('gender')
+            age = form.cleaned_data.get('age')
+            color = form.cleaned_data.get('color')
+            birthplace = form.cleaned_data.get('birthplace')
+            spayed = form.cleaned_data.get('spayed')
+
+            # 完全一致でフィルタリングする
+            if gender:
+                cats = cats.filter(gender=gender)
+            if age:
+                cats = cats.filter(age=age)
+            if color:
+                cats = cats.filter(color=color)
+            if birthplace:
+                cats = cats.filter(birthplace=birthplace)
+            if spayed is not None:
+                cats = cats.filter(spayed=spayed)
+
+    context = {
+        'cat_search_form': SearchCatForm(initial=request.GET),
+        'cats': cats,
+    }
+    return render(request, 'boards/cat_list.html', context)
+
+
 
 
 # 猫の編集ビュー
@@ -117,7 +141,7 @@ def cat_edit(request, id):
     edit_cat_form = forms.EditCatForm(request.POST or None, request.FILES or None, instance=cat)
     if edit_cat_form.is_valid():
         edit_cat_form.save()
-        messages.success(request, '猫の情報を更新しました。')
+        messages.success(request, '猫の情報を更新しました')
         return redirect('boards:cat_list')
     return render(request, 'boards/cat_edit.html', context={'edit_cat_form': edit_cat_form, 'id': id})
 
@@ -130,7 +154,7 @@ def cat_delete(request, id):
 
     if delete_cat_form.is_valid(): # csrf check
         cat.delete()
-        messages.success(request, '猫の情報を削除しました。')
+        messages.success(request, '猫の情報を削除しました')
         return redirect('boards:cat_list')
     return render(request, 'boards/cat_delete.html', context={'delete_cat_form': delete_cat_form,})
 
