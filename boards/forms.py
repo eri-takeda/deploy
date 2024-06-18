@@ -105,11 +105,19 @@ class CreateCatForm(forms.ModelForm):
         ('その他', 'その他'),
     ]
 
+    SPAYED_CHOICES = [
+        ('', '選択してください'),
+        ('避妊済', '避妊済'),
+        ('未避妊', '未避妊'),
+    ]
+
     birthplace = forms.ChoiceField(choices=BIRTHPLACE_CHOICES, label='出生地')
     gender = forms.ChoiceField(choices=GENDER_CHOICES, label='性別')
     color = forms.ChoiceField(choices=COLOR_CHOICES, label='色')
     age = forms.ChoiceField(choices=AGE_CHOICES, label='年齢')
     image = forms.ImageField(required=False, label='写真')  # 'image' フィールドが必須でないことを明示
+    spayed = forms.ChoiceField(label='避妊状況', choices=SPAYED_CHOICES)
+
 
     class Meta:
         model = Cats
@@ -121,7 +129,7 @@ class CreateCatForm(forms.ModelForm):
         labels = {
             'image': '画像',
             'age': '年齢',
-            'spayed': '避妊済',
+            'spayed': '避妊状況',
         }
 
     def __init__(self, *args, **kwargs):
@@ -215,8 +223,8 @@ class EditCatForm(forms.ModelForm):
 
     SPAYED_CHOICES = [
         ('', '選択してください'),
-        (True, '済'),
-        (False, '未'),
+        ('避妊済', '避妊済'),
+        ('未避妊', '未避妊'),
     ]
 
 
@@ -225,7 +233,8 @@ class EditCatForm(forms.ModelForm):
     age = forms.ChoiceField(label='年齢', choices=AGE_CHOICES)
     color = forms.ChoiceField(label='毛色', choices=COLOR_CHOICES)
     birthplace = forms.ChoiceField(label='出身地', choices=PREFECTURE_CHOICES)
-    spayed = forms.ChoiceField(label='避妊・去勢状況', choices=SPAYED_CHOICES)
+    spayed = forms.ChoiceField(label='避妊', choices=SPAYED_CHOICES)
+
     class Meta:
         model = Cats
         fields = ['image', 'gender', 'age', 'color', 'birthplace', 'spayed']
@@ -333,11 +342,18 @@ class SearchCatForm(forms.Form):
         ('沖縄県', '沖縄県'),
     ]
 
+    SPAYED_CHOICES = [
+        ('', '選択してください'),
+        ('避妊済', '避妊済'),
+        ('未避妊', '未避妊'),
+    ]
+
+
     birthplace = forms.ChoiceField(label='出生地', choices=BIRTHPLACE_CHOICES, required=False, initial=None)
     age = forms.ChoiceField(label='年齢', choices=AGE_CHOICES, required=False)
     color = forms.ChoiceField(label='色', choices=COLOR_CHOICES, required=False)
     gender = forms.ChoiceField(label='性別', choices=GENDER_CHOICES, required=False)
-    spayed = forms.BooleanField(label='避妊・去勢済', required=False)
+    spayed = forms.ChoiceField(label='避妊', choices=SPAYED_CHOICES,required = False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

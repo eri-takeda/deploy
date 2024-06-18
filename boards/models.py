@@ -53,7 +53,7 @@ class Cats(models.Model):
     age = models.IntegerField()  # 年齢
     color = models.CharField(max_length=50)  # 色
     birthplace = models.CharField(max_length=100)  # 出生地
-    spayed = models.BooleanField(default=False)  # 避妊済みかどうか
+    spayed = models.CharField(max_length=10)  # 避妊済みかどうか
     user = models.ForeignKey(
         'accounts.Users', on_delete=models.CASCADE
     )

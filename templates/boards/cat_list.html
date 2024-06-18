@@ -119,7 +119,7 @@
 
     <!-- 検索結果表示 -->
     {% if cats %}
-    <div class="table-container">
+    <div class="table-container" style="margin-left: 50px; overflow: auto; width: 1500px; height: 300px; ">
         <table class="cat-table table-striped table-hover">
             <thead>
                 <tr>
@@ -146,7 +146,7 @@
                     <td>{{ cat.age }}</td>
                     <td>{{ cat.color }}</td>
                     <td>{{ cat.birthplace }}</td>
-                    <td>{% if cat.spayed %}避妊済み{% else %}未避妊{% endif %}</td>
+                    <td>{{ cat.spayed }}</td>
                     <td>
                         {% if request.user.is_authenticated %}
                         {% if request.user.is_staff or cat.user == request.user %}

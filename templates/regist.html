@@ -100,6 +100,20 @@
             {% endfor %}
             </div>
         {% endif %}
+        <!-- 住所フィールドのバリデーションエラーメッセージ -->
+        {% if form.address.errors %}
+        <div class="error-message">
+            {% for error in form.address.errors %}
+                {% if '' in error %}
+                    住所フィールドは入力必須です
+                {% else %}
+                    {{ error }}
+                {% endif %}
+                <br>
+            {% endfor %}
+        </div>
+        {% endif %}
+
 
         <!-- 各フォームグループ -->
         <div class="form-group">

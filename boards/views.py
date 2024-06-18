@@ -124,7 +124,7 @@ def cat_list(request):
                 cats = cats.filter(color=color)
             if birthplace:
                 cats = cats.filter(birthplace=birthplace)
-            if spayed is not None:
+            if spayed:
                 cats = cats.filter(spayed=spayed)
 
     # メッセージの取得
